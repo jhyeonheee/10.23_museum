@@ -432,6 +432,29 @@
                 },
             });
 
+            (function revealSection03() {
+                const targets = document.querySelectorAll('.section03 .item');
+                if (!targets.length) return;
+
+                const io = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // 보이는 순간 즉시 표시
+                            entry.target.classList.add('show');
+                            // 다시 안 사라지게 관찰 중지
+                            observer.unobserve(entry.target);
+                        }
+                        // ★ 사라지게 하지 않음: else에서 removeClass 안 함
+                    });
+                }, {
+                    root: null,
+                    rootMargin: '0px 0px -20% 0px', // 요소의 20%만 들어와도 트리거
+                    threshold: 0.2
+                });
+
+                targets.forEach(t => io.observe(t));
+            })();
+
         }; //script end
 
 
@@ -1219,6 +1242,7 @@
                         </div> <!-- .tab-content (past) end -->
 
                     </section><!-- #exhibit-section end -->
+
                     <section class="section03">
                         <!--  <div class="bg">
                             <img src="img/sec03_bg.png" alt="">
